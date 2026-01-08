@@ -1,0 +1,17 @@
+review:
+  auto_review: true
+  base_branches:
+  - main
+  - develop
+  ignore_patterns:
+  - "*.md"
+  - "*.json"
+  - "*.yml"
+  summary:
+    bullet_points: 5
+  commit_message: true
+
+chat: {}
+
+language: "en"
+temperature: 0.2
