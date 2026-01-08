@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -86,10 +87,22 @@ export function RegisterForm() {
               <div className="grid gap-6">
                 <div className="flex flex-col gap-4">
                   <Button type="button" variant="outline" disabled={isPending}>
+                    <Image
+                      src="/github.svg"
+                      alt="github"
+                      width={28}
+                      height={28}
+                    />
                     Continue with github
                   </Button>
 
                   <Button type="button" variant="outline" disabled={isPending}>
+                    <Image
+                      src="/google.svg"
+                      alt="github"
+                      width={28}
+                      height={28}
+                    />
                     Continue with google
                   </Button>
                 </div>
