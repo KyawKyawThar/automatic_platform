@@ -10,6 +10,10 @@ review:
   summary:
     bullet_points: 5
   commit_message: true
+  sequence_diagrams: true
+  ci_patches: true
+  inline_code_suggestions: true
+  tools: [ trivy, "your-custom-tool" ]
 
 chat: {}
 
