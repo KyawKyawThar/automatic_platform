@@ -1,15 +1,15 @@
-review:
-  auto_review: true
-  base_branches:
-  - main
-  - develop
-  ignore_patterns:
-  - "*.md"
-  - "*.json"
-  - "*.yml"
-  summary:
-    bullet_points: 5
-  commit_message: true
+reviews:
+  profile: chill
+  sequence_diagrams: true
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    base_branches:
+    - main
+    - develop
+  tools:
+    gitleaks:
+      enabled: true
 
 chat: {}
 
