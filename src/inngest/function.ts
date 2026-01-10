@@ -1,20 +1,47 @@
 import prisma from "@/lib/db";
 import { inngest } from "./client";
+import { generateText } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
+import { createAnthropic } from "@ai-sdk/anthropic";
 
-export const helloWorld = inngest.createFunction(
-  { id: "hello-world" },
-  { event: "test/hello.world" },
+const googleAI = createGoogleGenerativeAI();
+const anthropicAI = createAnthropic();
+const openAI = createOpenAI();
+
+export const execute = inngest.createFunction(
+  { id: "execute-ai" },
+  { event: "execute/ai" },
   async ({ event, step }) => {
-    await step.sleep("fetcing", "5s");
-    await step.sleep("trancribiing", "5s");
-    await step.sleep("sending-to-ai", "5s");
+    const { steps: geminiSteps } = await step.ai.wrap(
+      "gemini-generate-text",
+      generateText,
+      {
+        model: googleAI("gemini-2.5-flash"),
+        system: "You are a helpful assistant",
+        prompt: "What is 22 + 44",
+      }
+    );
 
-    await step.run("create-workflow", () => {
-      return prisma.workflows.create({
-        data: {
-          name: "workflow-from-inngest",
-        },
-      });
-    });
+    const { steps: openAISteps } = await step.ai.wrap(
+      "openAI-generate-text",
+      generateText,
+      {
+        model: openAI("gpt-5.2-chat-latest"),
+        system: "You are a helpful assistant",
+        prompt: "What is 22 + 44",
+      }
+    );
+
+    const { steps: anthropicSteps } = await step.ai.wrap(
+      "anthropic-generate-text",
+      generateText,
+      {
+        model: anthropicAI("claude-sonnet-4-5"),
+        system: "You are a helpful assistant",
+        prompt: "What is 22 + 44",
+      }
+    );
+    return { geminiSteps, openAISteps, anthropicSteps };
   }
 );
