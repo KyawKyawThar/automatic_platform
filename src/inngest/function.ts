@@ -1,9 +1,8 @@
-import prisma from "@/lib/db";
-import { inngest } from "./client";
-import { generateText } from "ai";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
-import { createAnthropic } from "@ai-sdk/anthropic";
+import { generateText } from "ai";
+import { inngest } from "./client";
 
 const googleAI = createGoogleGenerativeAI();
 const anthropicAI = createAnthropic();
@@ -20,6 +19,11 @@ export const execute = inngest.createFunction(
         model: googleAI("gemini-2.5-flash"),
         system: "You are a helpful assistant",
         prompt: "What is 22 + 44",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -27,9 +31,14 @@ export const execute = inngest.createFunction(
       "openAI-generate-text",
       generateText,
       {
-        model: openAI("gpt-5.2-chat-latest"),
+        model: openAI("gpt-5.1"),
         system: "You are a helpful assistant",
         prompt: "What is 22 + 44",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -40,6 +49,11 @@ export const execute = inngest.createFunction(
         model: anthropicAI("claude-sonnet-4-5"),
         system: "You are a helpful assistant",
         prompt: "What is 22 + 44",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
     return { geminiSteps, openAISteps, anthropicSteps };
