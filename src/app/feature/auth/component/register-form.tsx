@@ -42,6 +42,7 @@ type LoginFormValue = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
   const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {

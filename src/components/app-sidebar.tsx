@@ -58,6 +58,7 @@ export const AppsideBar = () => {
   const router = useRouter();
   const pathName = usePathname();
   const { hasActiveSubscription, isLoading } = useHasAciveSubscription();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
