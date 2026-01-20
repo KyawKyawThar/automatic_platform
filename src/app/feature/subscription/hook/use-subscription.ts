@@ -5,7 +5,8 @@ export const useSubscriptin = () => {
   return useQuery({
     queryKey: ["subscription"],
     queryFn: async () => {
-      const { data } = await authClient.customer.state();
+      const { data } = await authClient.customer?.state();
+
       return data;
     },
   });
