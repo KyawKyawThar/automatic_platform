@@ -10,3 +10,13 @@ ERROR [lib::error] Error: channel closed
 ERROR [lib::error] Error: channel closed
 ERROR [lib::error] Error: channel closed
 ERROR [lib::error] Error: channel closed
+ERROR [lib::error] Error: channel closed
+ERROR [lib::term::input_parser] CSI error: invalid digit found in string
+ERROR [lib::term::input_parser] CSI error: invalid digit found in string
+ERROR [lib::term::input_parser] CSI error: invalid digit found in string
+ERROR [lib::term::input_parser] CSI error: invalid digit found in string
+ERROR [lib::error] Error: channel closed
+ERROR [lib::error] Error: channel closed
+ERROR [lib::error] Error: channel closed
+ERROR [lib::error] Error: channel closed
+ERROR [lib::error] Error: channel closed

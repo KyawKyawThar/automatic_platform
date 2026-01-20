@@ -1,14 +1,12 @@
 import {
+  AlertDialog,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-} from "@radix-ui/react-alert-dialog";
-import {
-  AlertDialog,
-  AlertDialogFooter,
-  AlertDialogHeader,
 } from "./ui/alert-dialog";
 import { authClient } from "@/lib/auth-client";
 
