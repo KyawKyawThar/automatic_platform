@@ -1,13 +1,44 @@
 "use client";
 
-import { EntityContainer, EntityHeader } from "@/components/entity-components";
+import {
+  EntityContainer,
+  EntityHeader,
+  EntityPagination,
+  EntitySearch,
+} from "@/components/entity-components";
 import { useCreateWorkflow, useSuspenseWorkflow } from "../hooks/use-workflows";
 import { create } from "domain";
 import { useUpgradeModel } from "@/hooks/use-upgrade-model";
 import { useRouter } from "next/navigation";
+import { useWorkFlowParams } from "../hooks/use-workflows-params";
+import { useEntitySearch } from "../hooks/use-entitySearch";
+
+export const WorkFlowSearch = () => {
+  const [params, setParams] = useWorkFlowParams();
+  const { searchValue, onSearchChange } = useEntitySearch({
+    params,
+    setParams,
+  });
+
+  return (
+    <EntitySearch
+      value={searchValue}
+      placeHolder="Search workflows"
+      onChange={onSearchChange}
+    />
+  );
+};
 
 export const WorkflowLists = () => {
   const workflows = useSuspenseWorkflow();
+
+  if (workflows.isFetching) {
+    return (
+      <div className="flex-1 flex justify-center items-center">
+        <p>Loading......</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex justify-center items-center">
@@ -45,6 +76,20 @@ export const WorkFlowHeader = ({ disabled }: { disabled?: boolean }) => {
   );
 };
 
+export const WorkflowPagination = () => {
+  const workflows = useSuspenseWorkflow();
+  const [params, setParams] = useWorkFlowParams();
+
+  return (
+    <EntityPagination
+      disable={workflows.isFetching}
+      totalPage={workflows.data.totalSize}
+      page={workflows.data.page}
+      onPageChange={(page) => setParams({ ...params, page })}
+    />
+  );
+};
+
 export const WorkflowContainer = ({
   children,
 }: {
@@ -53,8 +98,8 @@ export const WorkflowContainer = ({
   return (
     <EntityContainer
       header={<WorkFlowHeader />}
-      search={<></>}
-      pagination={<></>}>
+      search={<WorkFlowSearch />}
+      pagination={<WorkflowPagination />}>
       {children}
     </EntityContainer>
   );
