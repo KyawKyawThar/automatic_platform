@@ -65,3 +65,30 @@ This is a web application built with a modern tech stack.
 - `ingest`: Starts the Inngest development server.
 - `format`: Formats the code using Prettier.
 - `dev:all`: Runs all development processes using mprocs.
+
+## Design & Architectural Patterns
+
+This project follows a collection of modern design patterns and practices to ensure scalability, maintainability, and a high-quality developer experience.
+
+### Architectural Pattern
+
+- **Full-stack Monorepo:** The frontend and backend code reside in a single repository, simplifying development and deployment.
+- **Feature-Sliced Design (FSD):** The application is structured around business features (e.g., `src/app/feature/auth`, `src/app/feature/workflows`). This improves modularity and makes the codebase easier to navigate and maintain.
+- **Layered Architecture:**
+  - **Presentation Layer:** Handled by React components within the Next.js App Router (`src/app` and `src/components`). It distinguishes between Server Components for data fetching and Client Components for interactivity.
+  - **API Layer:** Primarily built with tRPC for end-to-end type-safe communication between the client and server.
+  - **Data Access Layer:** Managed by Prisma ORM, which provides a type-safe API for database operations.
+  - **Background Jobs:** Asynchronous tasks and workflows are handled by Inngest.
+
+### Component & UI Pattern
+
+- **Component-Based Architecture:** Following React's core principles, the UI is built as a composition of reusable components.
+- **Atomic Design Principles:**
+  - **Atoms:** Basic UI elements are located in `src/components/ui` (e.g., `Button`, `Input`, `Card`).
+  - **Molecules & Organisms:** These base components are composed into more complex, feature-specific components inside `src/app/feature/*` and `src/components`.
+- **Styling:** The project uses **Tailwind CSS** for utility-first styling, with `clsx` and `tailwind-merge` for managing conditional classes.
+
+### State Management
+
+- **Server State:** Managed by **TanStack Query** (`@tanstack/react-query`), which handles data fetching, caching, and synchronization of server data.
+- **Client State:** Primarily managed by local component state (`useState`, `useReducer`) and encapsulated within custom hooks (`src/hooks`) for reusability.
