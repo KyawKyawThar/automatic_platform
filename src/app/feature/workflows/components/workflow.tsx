@@ -1,10 +1,14 @@
 "use client";
 
 import {
+  EmptyView,
   EntityContainer,
   EntityHeader,
+  EntityList,
   EntityPagination,
   EntitySearch,
+  ErrorView,
+  LoadingView,
 } from "@/components/entity-components";
 import { useCreateWorkflow, useSuspenseWorkflow } from "../hooks/use-workflows";
 import { create } from "domain";
@@ -31,19 +35,13 @@ export const WorkFlowSearch = () => {
 
 export const WorkflowLists = () => {
   const workflows = useSuspenseWorkflow();
-
-  if (workflows.isFetching) {
-    return (
-      <div className="flex-1 flex justify-center items-center">
-        <p>Loading......</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex-1 flex justify-center items-center">
-      <p>{JSON.stringify(workflows.data, null, 2)}</p>
-    </div>
+    <EntityList
+      items={workflows.data.items}
+      getKey={(workflows) => workflows.id}
+      renderItem={(workflows) => <p>{workflows.name}</p>}
+      emptyView={<WorkflowEmpty />}
+    />
   );
 };
 
@@ -102,5 +100,38 @@ export const WorkflowContainer = ({
       pagination={<WorkflowPagination />}>
       {children}
     </EntityContainer>
+  );
+};
+
+export const WorkflowLoading = () => {
+  return <LoadingView message="Loading workflows..." />;
+};
+export const ErrorLoading = () => {
+  return <ErrorView message="Error Loading workflows..." />;
+};
+
+export const WorkflowEmpty = () => {
+  const createWorkflow = useCreateWorkflow();
+  const router = useRouter();
+  const { handleError, modal } = useUpgradeModel();
+
+  const handleCreate = () => {
+    createWorkflow.mutate(undefined, {
+      onError: (err) => {
+        handleError(err);
+      },
+      onSuccess: (data) => {
+        router.push(`/workflows/${data.id}`);
+      },
+    });
+  };
+  return (
+    <>
+      {modal}
+      <EmptyView
+        message="You haven't created any workflow yet.Get started by creating a workflows"
+        onNew={handleCreate}
+      />
+    </>
   );
 };
