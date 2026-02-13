@@ -302,7 +302,7 @@ export function EntityItems({
             <div>
               <CardTitle className="text-base font-medium">{title}</CardTitle>
 
-              {!subtitle && (
+              {!!subtitle && (
                 <CardDescription className="text-xs">
                   {subtitle}
                 </CardDescription>
@@ -310,7 +310,7 @@ export function EntityItems({
             </div>
           </div>
           {(action || onRemove) && (
-            <div className="flex gap-x-4 items-center">
+            <div className="flex gap-x-4 items-center ">
               {action}
 
               {onRemove && (
@@ -323,10 +323,13 @@ export function EntityItems({
                       <MoreVerticalIcon className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
+
                   <DropdownMenuContent
-                    align="end"
+                    className="rounded-md border bg-background shadow-md"
                     onClick={(e) => e.stopPropagation()}>
-                    <DropdownMenuItem onClick={handleRemove}>
+                    <DropdownMenuItem
+                      className="flex cursor-pointer items-center gap-x-2 px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent"
+                      onClick={handleRemove}>
                       <TrashIcon className="size-4" />
                       Delete
                     </DropdownMenuItem>

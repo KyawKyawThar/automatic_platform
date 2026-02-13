@@ -48,3 +48,29 @@ export const useDeleteWorkflow = () => {
     }),
   );
 };
+
+export const useSuspenseWorkflow = (id: string) => {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.workflows.findOne.queryOptions({ id }));
+};
+
+export const useUpdateWorkflowName = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.workflows.updateName.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`Workflow ${data.name} updated successfully`);
+
+        queryClient.invalidateQueries(trpc.workflows.findMany.queryOptions({}));
+        queryClient.invalidateQueries(
+          trpc.workflows.findOne.queryFilter({ id: data.id }),
+        );
+      },
+      onError: (err) => {
+        toast.error(`Failed to update workflow ${err.message}`);
+      },
+    }),
+  );
+};
